@@ -48,6 +48,7 @@ DataMapper.auto_upgrade!
 enable :sessions
 
 get '/' do
+  @song = Song.first || Song.create
   haml :index
 end
 
@@ -56,7 +57,8 @@ get '/style.css' do
   sass :style
 end
 
-post '/sing' do
+post '/sing/:song_id' do
+  song = Song.get(params[:song_id])
   screen_name = params[:screen_name]
   if screen_name && screen_name != ""
     @info = Twitter.get('/1/users/show.json', :query => { :screen_name => screen_name })
@@ -77,11 +79,16 @@ post '/sing' do
       person.followers_count, person.statuses_count, person.profile_image_url = @info['followers_count'], @info['statuses_count'], @info['profile_image_url']
       person.save
       
-      redirect '/song/'
-      
+      # now record their verse
+      if params[:line]
+        verse = Verse.create(:line => params[:line], :song_id => song.id, :person_id => person.id)
+        redirect '/?notice=You sang that beautifully.'
+      else
+        redirect '/?failure=Please sing something.'
+      end
     end    
   else
-    redirect "/?failure=Please enter a Twitter username to start the valuation process."
+    redirect "/?failure=Please enter a Twitter username."
   end
 end
 

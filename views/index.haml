@@ -4,15 +4,29 @@
 %p
   We think that's BS.
 
+#verses
+  - verse_count = 99
+  - @song.verses.each do |verse|
+    .verse
+      .line
+        %p
+          %small= "#{verse_count} bottles of beer on the wall, #{verse_count} bottles of beer,"
+        %p= verse.line
+      .singer
+        %img{:src => verse.person.profile_image_url, :style => "vertical-align: middle; padding-right: 12px;"}
+        = verse.person.name
+      .spacer
+    - verse_count -= 1
+
 .spacer{:style => "height: 10px;"}
 
 .callout
   / Although from the user's perspective we are requesting a "username", we'll use Twitter's nomenclature
   / for this field and call it screen_name in our code instead. By using the same names as the API you 
   / interact with, you decrease the cognitive overhead of dealing with the API.
-  %form#sing{:action => "/sing", :method => "post"}
-    %h2 99 bottles of beer on the wall, 99 bottles of beer,
-    %input.hint{:name => "song", :type => "text", :title => "Take one down, pass it around, tell Labatt they suck.", :style => "font-size: 22px; width: 99%;"}
+  %form#sing{:action => "/sing/#{@song.id}", :method => "post"}
+    %h2= "#{verse_count} bottles of beer on the wall, #{verse_count} bottles of beer,"
+    %input.hint{:name => "line", :type => "text", :title => "Buy the company, sell it off, screw over some regular folk.", :style => "font-size: 22px; width: 99%;"}
     %br/
     %br/
     %br/

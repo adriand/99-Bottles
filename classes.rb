@@ -25,6 +25,26 @@ class Person
   # to the list of required gems.
   property :created_at, DateTime
   
+  has n, :verses
+  
+end
+
+class Song
+  include DataMapper::Resource
+  
+  property :id, Serial
+  
+  has n, :verses
+end
+
+class Verse
+  include DataMapper::Resource
+  
+  property :id, Serial
+  property :line, String
+  
+  belongs_to :person
+  belongs_to :song
 end
 
 class Array
