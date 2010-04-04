@@ -1,0 +1,25 @@
+%p
+  On March 30, 2010, Labatt announced it was closing Lakeport Brewery in Hamilton, putting 143 people out of work.
+  
+%p
+  We think that's BS.
+
+.spacer{:style => "height: 10px;"}
+
+.callout
+  / Although from the user's perspective we are requesting a "username", we'll use Twitter's nomenclature
+  / for this field and call it screen_name in our code instead. By using the same names as the API you 
+  / interact with, you decrease the cognitive overhead of dealing with the API.
+  %form#sing{:action => "/sing", :method => "post"}
+    %h2 99 bottles of beer on the wall, 99 bottles of beer,
+    %input.hint{:name => "song", :type => "text", :title => "Take one down, pass it around, tell Labatt they suck.", :style => "font-size: 22px; width: 99%;"}
+    %br/
+    %br/
+    %br/
+    %big Your Twitter username:
+    &nbsp;
+    %input{:name => "screen_name", :type => "text"}
+    &nbsp;
+    %input{:type => "submit", :value => "Sing It!"}
+
+.spacer
